@@ -30,10 +30,11 @@ public class CreatePrivatePostUserTest {
     public void tearDown() {
         driver.quit();
     }
-
-    //Создаёт новый приватный пост,
-    //После чего выходит на главную страницу
-    //если пользователь видит пост,то тест пройден
+    /*
+     * Создаёт новый приватный пост,
+     * После чего выходит на главную страницу
+     * если пользователь видит пост,то тест пройден
+     */
     @Test
     public void CreatePrivatePostUser() {
         driver.get("https://ruswizard.site/test/");

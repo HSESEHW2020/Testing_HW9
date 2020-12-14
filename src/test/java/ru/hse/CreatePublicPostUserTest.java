@@ -29,9 +29,11 @@ public class CreatePublicPostUserTest {
         driver.quit();
     }
 
-    //Создаёт новый публичный пост,
-    // после чего выходит на страницу с постами,
-    // если он там есть,то тест пройдёенн
+    /*
+     * Создаёт новый публичный пост,
+     * после чего выходит на страницу с постами,
+     * если он там есть,то тест пройден
+     */
     @Test
     public void CreatePublicPostUser() {
         driver.get("https://ruswizard.site/test/");

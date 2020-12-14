@@ -27,9 +27,10 @@ public class CheckPostInListTest {
     public void tearDown() {
         driver.quit();
     }
-
-    //Создаёт новый пост и проверяет его наличие в списке постов пользователя,
-    //если он там найден,то тест пройден
+    /*
+     * Создаёт новый пост и проверяет его наличие в списке постов пользователя,
+     * если он там найден,то тест пройден
+     */
     @Test
     public void CheckPostInList() {
         driver.get("https://ruswizard.site/test");
