@@ -4,25 +4,26 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.JavascriptExecutor;
-import java.util.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreatePrivatePostGuestTest {
+    JavascriptExecutor js;
     private WebDriver driver;
     private Map<String, Object> vars;
-    JavascriptExecutor js;
 
     @BeforeEach
     public void setUp() {
-        driver = new FirefoxDriver();
+        driver = DriverHelper.getInstalledDriver();
         js = (JavascriptExecutor) driver;
-        vars = new HashMap();
+        vars = new HashMap<>();
     }
 
     @AfterEach
@@ -37,7 +38,7 @@ public class CreatePrivatePostGuestTest {
     public void CreatePrivatePostGuest() {
         driver.get("https://ruswizard.site/test/");
         vars.put("linkText", driver.findElement(By.cssSelector(".widget_meta li:nth-child(1)")).getText());
-        if ((Boolean) js.executeScript("return (arguments[0] == \'Регистрация\')", vars.get("linkText"))) {
+        if ((Boolean) js.executeScript("return (arguments[0] == 'Регистрация')", vars.get("linkText"))) {
             driver.findElement(By.linkText("Войти")).click();
             driver.findElement(By.id("user_login")).click();
             driver.findElement(By.id("user_login")).sendKeys("Kotek_Myau");
