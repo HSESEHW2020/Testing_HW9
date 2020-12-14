@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +55,12 @@ public class AddCommentaryGuestTest {
         driver.findElement(By.id("post-title-0")).sendKeys("CommentaryTest");
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.findElement(By.linkText("Просмотреть запись")).click();
         driver.findElement(By.linkText("Выйти")).click();
         driver.findElement(By.linkText("← Назад к сайту «Testing example»")).click();
