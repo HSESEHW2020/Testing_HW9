@@ -15,6 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/*
+ * Проверяет возможность добавления комментария пользователем.
+ * Логинится, если не залогинено, создаёт запись, открывает эту запись,
+ * вводит текст комментария, отправляет. Затем проверяет, что отправленный
+ * комментарий есть на странице
+ */
 public class AddCommentaryUserTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -57,7 +65,7 @@ public class AddCommentaryUserTest {
         driver.findElement(By.cssSelector(".comments-wrapper")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".comment-content > p"));
-            assert (elements.size() > 0);
+            assertTrue(elements.size() > 0);
         }
     }
 }
