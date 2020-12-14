@@ -55,9 +55,9 @@ public class CreatePrivatePostUserTest {
     driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
     driver.findElement(By.cssSelector(".editor-post-publish-panel__prepublish > .components-panel__body:nth-child(3) .components-button")).click();
     driver.findElement(By.cssSelector(".editor-post-visibility__choice:nth-child(3) > .editor-post-visibility__dialog-label")).click();
-    assertEquals(driver.switchTo().alert().getText(), is("Вы хотите опубликовать запись как личную?"));
+    assertEquals(driver.switchTo().alert().getText(), "Вы хотите опубликовать запись как личную?");
     driver.switchTo().alert().accept();
     driver.findElement(By.cssSelector(".is-secondary:nth-child(1)")).click();
-    assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), is("Личное: TestPrivate"));
+    assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), "Личное: TestPrivate");
   }
 }

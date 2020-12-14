@@ -20,6 +20,9 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class CreatePrivatePostGuestTest {
   private WebDriver driver;
   private Map<String, Object> vars;
@@ -52,7 +55,7 @@ public class CreatePrivatePostGuestTest {
     vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
     driver.findElement(By.cssSelector(".edit-post-post-visibility__toggle")).click();
     driver.findElement(By.id("editor-post-private-0")).click();
-    assertThat(driver.switchTo().alert().getText(), is("Вы хотите опубликовать запись как личную?"));
+    assertEquals(driver.switchTo().alert().getText(), "Вы хотите опубликовать запись как личную?");
     driver.switchTo().alert().accept();
     driver.findElement(By.cssSelector(".interface-complementary-area-header")).click();
     driver.findElement(By.cssSelector(".edit-post-fullscreen-mode-close path")).click();
@@ -60,7 +63,7 @@ public class CreatePrivatePostGuestTest {
     driver.findElement(By.linkText("Выйти")).click();
     driver.findElement(By.linkText("← Назад к сайту «Testing example»")).click();
     {
-      List<WebElement> elements = driver.findElements(By.cssSelector(".post-vars.get("id").toString()"));
+      List<WebElement> elements = driver.findElements(By.cssSelector(".post-vars.get('id').toString()"));
       assert(elements.size() == 0);
     }
   }

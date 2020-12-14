@@ -20,6 +20,8 @@ import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class CreatePublicPostUserTest {
   private WebDriver driver;
   private Map<String, Object> vars;
@@ -60,6 +62,6 @@ public class CreatePublicPostUserTest {
       assert(elements.size() > 0);
     }
     driver.findElement(By.cssSelector("#post-vars.get('id').toString() .entry-title")).click();
-    assertThat(driver.findElement(By.cssSelector(".entry-title")).getText(), is("vars.get(\"articleTitle\").toString()"));
+    assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), "vars.get(\"articleTitle\").toString()");
   }
 }
