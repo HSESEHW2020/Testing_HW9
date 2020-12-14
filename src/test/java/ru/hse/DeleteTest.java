@@ -13,6 +13,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/*
+ * Тест создаёт новый публичный пост,после чего удаляет её и
+ * проверят в списке записей,есть ли он,если нет,
+ * то тест пройден
+ */
 public class DeleteTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -29,11 +34,7 @@ public class DeleteTest {
     public void tearDown() {
         driver.quit();
     }
-    /*
-     * Тест создаёт новый публичный пост,после чего удаляет её и
-     * проверят в списке записей,есть ли он,если нет,
-     * то тест пройден
-    */
+
     @Test
     public void delete() {
         driver.get("https://ruswizard.site/test/");
