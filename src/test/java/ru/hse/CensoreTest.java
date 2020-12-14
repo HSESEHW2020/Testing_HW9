@@ -46,7 +46,6 @@ public class CensoreTest {
             driver.findElement(By.id("wp-submit")).click();
         }
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
-        driver.findElement(By.id("post-title-0")).click();
         driver.findElement(By.id("post-title-0")).sendKeys("GeekTest");
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();

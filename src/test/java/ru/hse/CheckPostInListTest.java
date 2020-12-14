@@ -3,10 +3,7 @@ package ru.hse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -46,8 +43,14 @@ public class CheckPostInListTest {
             driver.findElement(By.id("wp-submit")).click();
         }
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
-        driver.findElement(By.id("post-title-0")).click();
         driver.findElement(By.id("post-title-0")).sendKeys("TestCheckPost");
+
+        try {
+            driver.findElement(By.cssSelector(".edit-post-post-link__link"));
+        } catch (NoSuchElementException exception) {
+            driver.findElement(By.cssSelector(".components-panel__body:nth-child(2) .components-button")).click();
+        }
+
         vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
         driver.findElement(By.cssSelector(".block-editor-writing-flow__click-redirect")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
@@ -58,7 +61,7 @@ public class CheckPostInListTest {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".mine")));
         }
         {
-            List<WebElement> elements = driver.findElements(By.cssSelector(".post-vars.get('id').toString()"));
+            List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
             assert (elements.size() > 0);
         }
     }

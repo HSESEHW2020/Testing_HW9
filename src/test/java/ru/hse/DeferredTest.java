@@ -3,10 +3,7 @@ package ru.hse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +40,6 @@ public class DeferredTest {
             driver.findElement(By.id("user_pass")).click();
             driver.findElement(By.id("user_pass")).sendKeys("wPJ3Kdey(py!m9iQ");
             driver.findElement(By.id("wp-submit")).click();
-        } else {
         }
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
         driver.findElement(By.id("post-title-0")).sendKeys("Selenium - игрушка дьявола");
@@ -66,13 +62,20 @@ public class DeferredTest {
                 driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).sendKeys(vars.get("dayOfMonth").toString());
             }
         }
+
+        try {
+            driver.findElement(By.cssSelector(".edit-post-post-link__link"));
+        } catch (NoSuchElementException exception) {
+            driver.findElement(By.cssSelector(".components-panel__body:nth-child(2) .components-button")).click();
+        }
+
         vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();
         driver.get("https://ruswizard.site/test/wp-admin/edit.php");
         driver.findElement(By.cssSelector(".future")).click();
         {
-            List<WebElement> elements = driver.findElements(By.cssSelector(".post-vars.get('id').toString()"));
+            List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
             assert (elements.size() > 0);
         }
     }

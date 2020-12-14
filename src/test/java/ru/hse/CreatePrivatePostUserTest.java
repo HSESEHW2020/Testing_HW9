@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,7 @@ public class CreatePrivatePostUserTest {
     public void CreatePrivatePostUser() {
         driver.get("https://ruswizard.site/test/");
         vars.put("linkText", driver.findElement(By.cssSelector(".widget_meta li:nth-child(1)")).getText());
+
         if ((Boolean) js.executeScript("return (arguments[0] == 'Регистрация')", vars.get("linkText"))) {
             driver.findElement(By.linkText("Войти")).click();
             driver.findElement(By.id("user_login")).click();
@@ -43,8 +46,8 @@ public class CreatePrivatePostUserTest {
             driver.findElement(By.id("user_pass")).click();
             driver.findElement(By.id("user_pass")).sendKeys("wPJ3Kdey(py!m9iQ");
             driver.findElement(By.id("wp-submit")).click();
-        } else {
         }
+
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
         driver.findElement(By.id("post-title-0")).sendKeys("TestPrivate");
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
@@ -53,6 +56,14 @@ public class CreatePrivatePostUserTest {
         assertEquals(driver.switchTo().alert().getText(), "Вы хотите опубликовать запись как личную?");
         driver.switchTo().alert().accept();
         driver.findElement(By.cssSelector(".is-secondary:nth-child(1)")).click();
+
+        driver.get("https://ruswizard.site/test/");
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".entry-title")));
+        }
+
         assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), "Личное: TestPrivate");
     }
 }
