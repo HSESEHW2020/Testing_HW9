@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +54,12 @@ public class CreatePublicTestGuestTest {
         vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.findElement(By.cssSelector(".edit-post-fullscreen-mode-close > svg")).click();
         driver.findElement(By.linkText("Testing example")).click();
         driver.findElement(By.linkText("Выйти")).click();
