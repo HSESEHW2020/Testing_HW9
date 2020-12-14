@@ -4,17 +4,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
  * Создаёт новый пост с задержкой 2 минуты,
  * после чего проверяет список отлложенных записей,
- * если она там есть то тест пройдён
+ * если она там есть, то тест пройдён
  */
 public class DeferredTest {
     JavascriptExecutor js;
@@ -95,11 +97,17 @@ public class DeferredTest {
         vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.get("https://ruswizard.site/test/wp-admin/edit.php");
         driver.findElement(By.cssSelector(".future")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
-            assertFalse(elements.isEmpty());
+            assertEquals(elements.size(), 1);
         }
     }
 }

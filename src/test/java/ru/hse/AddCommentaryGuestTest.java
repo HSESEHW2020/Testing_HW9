@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
  * Проверяет возможность добавления комментария гостем.
@@ -74,7 +74,7 @@ public class AddCommentaryGuestTest {
         driver.findElement(By.id("submit")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".comment-content > p"));
-            assertTrue(elements.size() > 0);
+            assertEquals(elements.size(), 1);
         }
     }
 }

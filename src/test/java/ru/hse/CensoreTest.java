@@ -12,11 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /*
- * Создаёт новый публичный пост,после чего выходит из акканта,
- * после чего незалогиненый пользователь заходит в созданный пост,
- * вводит необхзодимые данные и в поле текст вводит слово geek,
- * и нажимает отправить,если комментарий после этого не появился,то тест пройден
+ * Создаёт новый публичный пост, после чего выходит из аккаунта,
+ * после чего незалогиненный пользователь заходит в созданный пост,
+ * вводит необходимые данные и в поле текст вводит слово geek,
+ * и нажимает отправить, если комментарий после этого не появился, то тест пройден
  */
 public class CensoreTest {
     JavascriptExecutor js;
@@ -65,7 +67,7 @@ public class CensoreTest {
         driver.findElement(By.id("submit")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".comment-content > p"));
-            assert (elements.size() == 0);
+            assertTrue(elements.isEmpty());
         }
     }
 }

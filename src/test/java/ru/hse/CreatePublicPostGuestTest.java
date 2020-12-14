@@ -11,12 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
  * Создаёт новый публичный пост,
  * после чего выходит из аккаунта и переходит на страницу с постами,
- * если он там есть,то тест пройден
+ * если он там есть, то тест пройден
  */
 public class CreatePublicPostGuestTest {
     JavascriptExecutor js;
@@ -72,7 +73,7 @@ public class CreatePublicPostGuestTest {
         driver.findElement(By.linkText("← Назад к сайту «Testing example»")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
-            assertTrue(elements.size() > 0);
+            assertEquals(elements.size(), 1);
         }
         driver.findElement(By.cssSelector(".post-" + vars.get("id").toString())).click();
         {

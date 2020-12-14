@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
  * Создаёт новый приватный пост,
  * После чего выходит на главную страницу
- * если пользователь видит пост,то тест пройден
+ * если пользователь видит пост, то тест пройден
  */
 public class CreatePrivatePostUserTest {
     JavascriptExecutor js;
@@ -82,7 +81,7 @@ public class CreatePrivatePostUserTest {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
             assertEquals(elements.size(), 1);
         }
-        driver.findElement(By.cssSelector("#post-"+ vars.get("id").toString() + " .entry-title")).click();
+        driver.findElement(By.cssSelector("#post-" + vars.get("id").toString() + " .entry-title")).click();
         assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), "Личное: " + title);
     }
 }

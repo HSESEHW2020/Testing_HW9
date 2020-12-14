@@ -11,9 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /*
  * Создаёт новый пост и проверяет его наличие в списке постов пользователя,
- * если он там найден,то тест пройден
+ * если он там найден, то тест пройден
  */
 public class CheckPostInListTest {
     JavascriptExecutor js;
@@ -44,6 +46,12 @@ public class CheckPostInListTest {
             driver.findElement(By.id("user_pass")).sendKeys("wPJ3Kdey(py!m9iQ");
             driver.findElement(By.id("wp-submit")).click();
         }
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#wp-admin-bar-new-content .ab-label")));
+        }
+
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
         driver.findElement(By.id("post-title-0")).sendKeys("TestCheckPost");
 
@@ -57,6 +65,12 @@ public class CheckPostInListTest {
         driver.findElement(By.cssSelector(".block-editor-writing-flow__click-redirect")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.findElement(By.cssSelector(".edit-post-fullscreen-mode-close path")).click();
         {
             WebDriverWait wait = new WebDriverWait(driver, 50);
@@ -64,7 +78,7 @@ public class CheckPostInListTest {
         }
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
-            assert (elements.size() > 0);
+            assertEquals(elements.size(), 1);
         }
     }
 }

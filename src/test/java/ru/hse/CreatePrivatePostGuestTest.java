@@ -4,17 +4,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
- * Cоздаёт новый приватный пост,
- * после чего выходит из аккаунта и возвращается на главную страницу,
- * если нeзалогиненый пользователь не видит пост,то тест пройден
+ * Создаёт новый приватный пост, после чего выходит из аккаунта
+ * и возвращается на главную страницу, если незалогиненный
+ * пользователь не видит пост (нет поста с этим id на странице), то тест пройден
  */
 public class CreatePrivatePostGuestTest {
     JavascriptExecutor js;
@@ -62,13 +65,19 @@ public class CreatePrivatePostGuestTest {
         assertEquals(driver.switchTo().alert().getText(), "Вы хотите опубликовать запись как личную?");
         driver.switchTo().alert().accept();
         driver.findElement(By.cssSelector(".interface-complementary-area-header")).click();
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.findElement(By.cssSelector(".edit-post-fullscreen-mode-close path")).click();
         driver.findElement(By.linkText("Testing example")).click();
         driver.findElement(By.linkText("Выйти")).click();
         driver.findElement(By.linkText("← Назад к сайту «Testing example»")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
-            assert (elements.size() == 0);
+            assertTrue(elements.isEmpty());
         }
     }
 }

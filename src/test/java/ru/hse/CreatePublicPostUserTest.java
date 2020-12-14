@@ -4,18 +4,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
  * Создаёт новый публичный пост,
  * после чего выходит на страницу с постами,
- * если он там есть,то тест пройден
+ * если он там есть, то тест пройден
  */
 public class CreatePublicPostUserTest {
     JavascriptExecutor js;
@@ -60,13 +61,19 @@ public class CreatePublicPostUserTest {
         vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-button")).click();
+
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.findElement(By.cssSelector(".edit-post-fullscreen-mode-close > svg")).click();
         driver.findElement(By.linkText("Testing example")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
-            assertTrue(elements.size() > 0);
+            assertEquals(elements.size(), 1);
         }
-        driver.findElement(By.cssSelector("#post-"+ vars.get("id").toString() + " .entry-title")).click();
+        driver.findElement(By.cssSelector("#post-" + vars.get("id").toString() + " .entry-title")).click();
         assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), vars.get("articleTitle").toString());
     }
 }
