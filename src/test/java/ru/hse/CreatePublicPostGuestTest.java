@@ -13,7 +13,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreatePublicTestGuestTest {
+/*
+ * Создаёт новый публичный пост,
+ * после чего выходит из аккаунта и переходит на страницу с постами,
+ * если он там есть,то тест пройден
+ */
+public class CreatePublicPostGuestTest {
     JavascriptExecutor js;
     private WebDriver driver;
     private Map<String, Object> vars;
@@ -29,6 +34,7 @@ public class CreatePublicTestGuestTest {
     public void tearDown() {
         driver.quit();
     }
+
 
     @Test
     public void createPublicTestGuest() {

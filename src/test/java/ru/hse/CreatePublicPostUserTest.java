@@ -12,6 +12,11 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/*
+ * Создаёт новый публичный пост,
+ * после чего выходит на страницу с постами,
+ * если он там есть,то тест пройден
+ */
 public class CreatePublicPostUserTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -29,11 +34,7 @@ public class CreatePublicPostUserTest {
         driver.quit();
     }
 
-    /*
-     * Создаёт новый публичный пост,
-     * после чего выходит на страницу с постами,
-     * если он там есть,то тест пройден
-     */
+
     @Test
     public void CreatePublicPostUser() {
         driver.get("https://ruswizard.site/test/");

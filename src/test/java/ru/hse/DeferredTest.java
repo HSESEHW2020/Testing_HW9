@@ -11,6 +11,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/*
+ * Создаёт новый пост с задержкой 2 минуты,
+ * после чего проверяет список отлложенных записей,
+ * если она там есть то тест пройдён
+ */
 public class DeferredTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -27,11 +32,7 @@ public class DeferredTest {
     public void tearDown() {
         driver.quit();
     }
-    /*
-     * Создаёт новый пост с задержкой 2 минуты,
-     * после чего проверяет список отлложенных записей,
-     * если она там есть то тест пройдён
-     */
+
     @Test
     public void deferred() {
         driver.get("https://ruswizard.site/test");

@@ -11,6 +11,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/*
+ * Cоздаёт новый приватный пост,
+ * после чего выходит из аккаунта и возвращается на главную страницу,
+ * если нeзалогиненый пользователь не видит пост,то тест пройден
+ */
 public class CreatePrivatePostGuestTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -27,11 +32,7 @@ public class CreatePrivatePostGuestTest {
     public void tearDown() {
         driver.quit();
     }
-    /*
-     * Cоздаёт новый приватный пост,
-     * после чего выходит из аккаунта и возвращается на главную страницу,
-     * если нeзалогиненый пользователь не видит пост,то тест пройден
-     */
+
     @Test
     public void CreatePrivatePostGuest() {
         driver.get("https://ruswizard.site/test/");

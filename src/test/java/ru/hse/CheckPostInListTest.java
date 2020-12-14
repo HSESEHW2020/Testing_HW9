@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+ * Создаёт новый пост и проверяет его наличие в списке постов пользователя,
+ * если он там найден,то тест пройден
+ */
 public class CheckPostInListTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -27,10 +31,7 @@ public class CheckPostInListTest {
     public void tearDown() {
         driver.quit();
     }
-    /*
-     * Создаёт новый пост и проверяет его наличие в списке постов пользователя,
-     * если он там найден,то тест пройден
-     */
+
     @Test
     public void CheckPostInList() {
         driver.get("https://ruswizard.site/test");
