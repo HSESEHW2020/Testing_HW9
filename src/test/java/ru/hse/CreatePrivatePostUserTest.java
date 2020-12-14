@@ -64,6 +64,6 @@ public class CreatePrivatePostUserTest {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".entry-title")));
         }
 
-        assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), "Личное: TestPrivate");
+        assertEquals("Личное: TestPrivate", driver.findElement(By.cssSelector(".entry-title")).getText());
     }
 }

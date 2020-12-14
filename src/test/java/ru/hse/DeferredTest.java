@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 public class DeferredTest {
     JavascriptExecutor js;
     private WebDriver driver;
@@ -45,23 +47,26 @@ public class DeferredTest {
         driver.findElement(By.id("post-title-0")).sendKeys("Selenium - игрушка дьявола");
         driver.findElement(By.cssSelector(".edit-post-post-schedule__toggle")).click();
         driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).click();
-        vars.put("currentMinute", driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).getAttribute("value"));
-        if ((Boolean) js.executeScript("return (arguments[0] < 58)", vars.get("currentMinute"))) {
-            vars.put("currentMinute", js.executeScript("return parseInt(arguments[0]) + 2", vars.get("currentMinute")));
-            driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).sendKeys(vars.get("currentMinute").toString());
+
+        int currentMinute = Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).getAttribute("value"));
+
+        if (currentMinute < 58) {
+            driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).sendKeys(String.valueOf(currentMinute + 2));
         } else {
             driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).sendKeys("00");
-            vars.put("currentHour", driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).getAttribute("value"));
+            vars.put("currentHour", Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).getAttribute("value")));
             if ((Boolean) js.executeScript("return (arguments[0] < 23)", vars.get("currentHour"))) {
-                vars.put("currentHour", js.executeScript("return parseInt(arguments[0]) +1", vars.get("currentHour")));
+                vars.put("currentHour", ((Integer) vars.get("currentHour")) + 1);
                 driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).sendKeys(vars.get("currentHour").toString());
             } else {
                 driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).sendKeys("00");
-                vars.put("dayOfMonth", driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).getAttribute("value"));
-                vars.put("dayOfMonth", js.executeScript("return parseInt(arguments[0]) +1", vars.get("dayOfMonth")));
+                int currentDay = Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).getAttribute("value"));
+                vars.put("dayOfMonth",  currentDay + 1);
                 driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).sendKeys(vars.get("dayOfMonth").toString());
             }
         }
+
+        driver.findElement(By.cssSelector(".edit-post-post-schedule__toggle")).click();
 
         try {
             driver.findElement(By.cssSelector(".edit-post-post-link__link"));
@@ -76,7 +81,7 @@ public class DeferredTest {
         driver.findElement(By.cssSelector(".future")).click();
         {
             List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
-            assert (elements.size() > 0);
+            assertFalse(elements.isEmpty());
         }
     }
 }
