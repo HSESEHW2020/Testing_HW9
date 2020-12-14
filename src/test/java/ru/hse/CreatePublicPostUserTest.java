@@ -19,7 +19,8 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-public class CreatepublicpostuserTest {
+
+public class CreatePublicPostUserTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
@@ -55,10 +56,10 @@ public class CreatepublicpostuserTest {
     driver.findElement(By.cssSelector(".edit-post-fullscreen-mode-close > svg")).click();
     driver.findElement(By.linkText("Testing example")).click();
     {
-      List<WebElement> elements = driver.findElements(By.cssSelector(".post-vars.get("id").toString()"));
+      List<WebElement> elements = driver.findElements(By.cssSelector(".post-vars.get('id').toString()"));
       assert(elements.size() > 0);
     }
-    driver.findElement(By.cssSelector("#post-vars.get("id").toString() .entry-title")).click();
+    driver.findElement(By.cssSelector("#post-vars.get('id').toString() .entry-title")).click();
     assertThat(driver.findElement(By.cssSelector(".entry-title")).getText(), is("vars.get(\"articleTitle\").toString()"));
   }
 }
