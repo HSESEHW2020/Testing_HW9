@@ -3,16 +3,16 @@ package ru.hse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreatePrivatePostUserTest {
     JavascriptExecutor js;
@@ -50,7 +50,19 @@ public class CreatePrivatePostUserTest {
         }
 
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
-        driver.findElement(By.id("post-title-0")).sendKeys("TestPrivate");
+
+        String title = "TestPrivate";
+
+        driver.findElement(By.id("post-title-0")).sendKeys(title);
+
+        try {
+            driver.findElement(By.cssSelector(".edit-post-post-link__link"));
+        } catch (NoSuchElementException exception) {
+            driver.findElement(By.cssSelector(".components-panel__body:nth-child(2) .components-button")).click();
+        }
+
+        vars.put("id", js.executeScript("const alink = document.getElementsByClassName(\"components-external-link edit-post-post-link__link\")[0].text; return (new RegExp(\"p=(\\\\\\d+)\")).exec(alink)[1];"));
+
         driver.findElement(By.cssSelector(".editor-post-publish-panel__toggle")).click();
         driver.findElement(By.cssSelector(".editor-post-publish-panel__prepublish > .components-panel__body:nth-child(3) .components-button")).click();
         driver.findElement(By.cssSelector(".editor-post-visibility__choice:nth-child(3) > .editor-post-visibility__dialog-label")).click();
@@ -58,13 +70,18 @@ public class CreatePrivatePostUserTest {
         driver.switchTo().alert().accept();
         driver.findElement(By.cssSelector(".is-secondary:nth-child(1)")).click();
 
+        {
+            WebDriverWait wait = new WebDriverWait(driver, 50);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Просмотреть запись")));
+        }
+
         driver.get("https://ruswizard.site/test/");
 
         {
-            WebDriverWait wait = new WebDriverWait(driver, 50);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".entry-title")));
+            List<WebElement> elements = driver.findElements(By.cssSelector(".post-" + vars.get("id").toString()));
+            assertEquals(elements.size(), 1);
         }
-
-        assertEquals("Личное: TestPrivate", driver.findElement(By.cssSelector(".entry-title")).getText());
+        driver.findElement(By.cssSelector("#post-"+ vars.get("id").toString() + " .entry-title")).click();
+        assertEquals(driver.findElement(By.cssSelector(".entry-title")).getText(), "Личное: " + title);
     }
 }

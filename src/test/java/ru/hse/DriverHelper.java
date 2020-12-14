@@ -24,6 +24,7 @@ public class DriverHelper {
         try {
             return new FirefoxDriver();
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -38,6 +39,7 @@ public class DriverHelper {
         try {
             return new ChromeDriver();
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

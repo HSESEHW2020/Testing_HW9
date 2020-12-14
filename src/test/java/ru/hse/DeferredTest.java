@@ -47,23 +47,39 @@ public class DeferredTest {
         driver.findElement(By.cssSelector("#wp-admin-bar-new-content .ab-label")).click();
         driver.findElement(By.id("post-title-0")).sendKeys("Selenium - игрушка дьявола");
         driver.findElement(By.cssSelector(".edit-post-post-schedule__toggle")).click();
-        driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).click();
 
-        int currentMinute = Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).getAttribute("value"));
+        WebElement minutesElement = driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input"));
+        int currentMinute = Integer.parseInt(minutesElement.getAttribute("value"));
 
         if (currentMinute < 58) {
-            driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).sendKeys(String.valueOf(currentMinute + 2));
+
+            String newMinute = String.valueOf(currentMinute + 2);
+            if (newMinute.length() < 2) {
+                newMinute = "0" + newMinute;
+            }
+
+            driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).sendKeys(newMinute);
+
         } else {
             driver.findElement(By.cssSelector(".components-datetime__time-field-minutes-input")).sendKeys("00");
-            vars.put("currentHour", Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).getAttribute("value")));
-            if ((Boolean) js.executeScript("return (arguments[0] < 23)", vars.get("currentHour"))) {
-                vars.put("currentHour", ((Integer) vars.get("currentHour")) + 1);
-                driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).sendKeys(vars.get("currentHour").toString());
+            int currentHour = Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).getAttribute("value"));
+            if (currentHour < 23) {
+                String newHour = String.valueOf(currentHour + 1);
+                if (newHour.length() < 2) {
+                    newHour = "0" + newHour;
+                }
+
+                driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).sendKeys(newHour);
             } else {
-                driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).sendKeys("00");
+                driver.findElement(By.cssSelector(".components-datetime__time-field-hours-input")).sendKeys("01");
                 int currentDay = Integer.parseInt(driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).getAttribute("value"));
-                vars.put("dayOfMonth",  currentDay + 1);
-                driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).sendKeys(vars.get("dayOfMonth").toString());
+
+                String newDay = String.valueOf(currentDay + 1);
+                if (newDay.length() < 2) {
+                    newDay = "0" + newDay;
+                }
+
+                driver.findElement(By.cssSelector(".components-datetime__time-field-day-input")).sendKeys(newDay);
             }
         }
 
